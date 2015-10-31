@@ -19,13 +19,16 @@
     "gulp": "^3.9",
     "gulp-coveralls": "^0.1",
     "gulp-eslint": "^1.0",
-    "gulp-gh-pages": "^0.5.4",
+    "gulp-gh-pages": "^0.5",
     "gulp-istanbul": "^0.10",
     "gulp-jsdoc": "^0.1",
     "gulp-live-server": "0.0",
     "gulp-mocha": "^2.1",
     "gulp-util": "^3.0",
     "open": "0.0",
-    "through2": "^2.0.0"
+    "through2": "^2.0"
+  },
+  "dependencies": {
+    "yargs": "^3.29"
   }
 }
