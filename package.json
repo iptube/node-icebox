@@ -6,6 +6,9 @@
   "scripts": {
     "test": "./node_modules/.bin/gulp test"
   },
+  "bin": {
+    "icebox": "./bin/icebox"
+  },
   "keywords": [
     "ice",
     "wrapper"
