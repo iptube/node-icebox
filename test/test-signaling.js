@@ -103,4 +103,43 @@ describe('signaling', function() {
       return p;
     });
   });
+  describe('!invite', function() {
+    it('receives an invite', function(done) {
+      var conn = (function() {
+        var invited = false;
+        return through(function(data, encoding, callback) {
+          if (!invited) {
+            // pass data along in the next tick
+            invited = true;
+            callback(null, data);
+          } else {
+            // test results
+            var expected = [
+              '200 OK',
+              'From: bilbo.baggins@hobbiton.example',
+              'To: frodo.baggins@hobbiton.example'
+            ].join('\n');
+            assert.equal(data.toString('utf8'), expected);
+            done();
+          }
+        });
+      })();
+      var signaler = signaling.createSignaling(conn);
+      // fake register
+      signaler.user = 'bilbo.baggins@hobbiton.example';
+      signaler.on('invite', function(info) {
+        var expected = {
+          from: 'frodo.baggins@hobbiton.example',
+          to: 'bilbo.baggins@hobbiton.example'
+        };
+        assert.deepEqual(info, expected);
+      });
+      var msg = [
+        'INVITE bilbo.baggins@hobbiton.example',
+        'To: bilbo.baggins@hobbiton.example',
+        'From: frodo.baggins@hobbiton.example'
+      ].join('\n');
+      conn.write(new Buffer(msg, 'utf8'));
+    });
+  });
 });
