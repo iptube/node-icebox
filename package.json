@@ -34,8 +34,9 @@
     "nan": "^2.1.0"
   },
   "dependencies": {
+    "bindings": "^1.2.1",
+    "header-parse": "^0.1.0",
     "lodash.assign": "^3.2.0",
-    "yargs": "^3.29",
-    "bindings": "^1.2.1"
+    "yargs": "^3.29"
   }
 }
