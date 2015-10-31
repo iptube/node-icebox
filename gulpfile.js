@@ -39,6 +39,12 @@ gulp.task('doc', function() {
     .pipe(jsdoc('./doc'))
 });
 
+gulp.task('doc-deploy', ['doc'], function() {
+  var ghPages = require('gulp-gh-pages');
+  return gulp.src('./doc/**/*')
+    .pipe(ghPages());
+});
+
 gulp.task('pre-coverage', function() {
   return gulp.src([SRC])
     .pipe(istanbul())
