@@ -1,0 +1,15 @@
+{
+  "name": "icebox",
+  "version": "1.0.0",
+  "description": "Simple generic ICE testing client.",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "keywords": [
+    "ice",
+    "wrapper"
+  ],
+  "author": "Pål-Erik Martinsen <palerikm@gmail.com>",
+  "license": "BSD-2-Clause"
+}
