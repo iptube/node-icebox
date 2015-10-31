@@ -25,6 +25,7 @@
     "gulp-live-server": "0.0",
     "gulp-mocha": "^2.1",
     "gulp-util": "^3.0",
-    "open": "0.0"
+    "open": "0.0",
+    "through2": "^2.0.0"
   }
 }
