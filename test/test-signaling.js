@@ -14,33 +14,94 @@ function setupMock(messages) {
   }
   return through(function(data, encoding, callback) {
     // ignore data for now
-    var output = messages.shift();
-    callback(null, output);
+    var self = this;
+    function next() {
+      var output = messages.shift();
+      if (!output) {
+        return callback();
+      }
+      self.push(output);
+      process.nextTick(next);
+    }
+    next();
   });
 }
 
 describe('signaling', function() {
-  it('registers a user', function() {
-    var conn = setupMock('200 OK');
-    var signaler = signaling.createSignaling(conn);
-    var p = signaler.register('bilbo.baggins@hobbiton.example');
-    p = p.then(function() {
-      assert.ok(true);
-      console.log('user registered!');
+  describe('#register', function() {
+    it('registers a user', function() {
+      var conn = setupMock('200 OK');
+      var signaler = signaling.createSignaling(conn);
+      var p = signaler.register('bilbo.baggins@hobbiton.example');
+      p = p.then(function() {
+        assert.ok(true);
+        console.log('user registered!');
+      });
+      return p;
     });
-    return p;
+    it('fails to register', function() {
+      var conn = setupMock('403 forbidden');
+      var signaler = signaling.createSignaling(conn);
+      var p = signaler.register('bilbo.baggins@hobbiton.example');
+      p = p.then(function() {
+        assert.ok(false, 'unexpected success');
+      });
+      p = p.catch(function(err) {
+        assert.strictEqual(err.code, 403);
+        assert.strictEqual(err.message, 'forbidden');
+      });
+      return p;
+    });
   });
-  it('fails to register', function() {
-    var conn = setupMock('403 forbidden');
-    var signaler = signaling.createSignaling(conn);
-    var p = signaler.register('bilbo.baggins@hobbiton.example');
-    p = p.then(function() {
-      assert.ok(false, 'unexpected success');
+  describe('#invite', function() {
+    it('invites a user', function() {
+      var conn = setupMock([
+        '100 Trying',
+        '200 OK'
+      ]);
+      var signaler = signaling.createSignaling(conn);
+      // fake register
+      signaler.user = 'bilbo.baggins@hobbiton.example';
+      var p = signaler.invite('frodo.baggins@hobbiton.example');
+      p = p.then(function(invitee) {
+        assert.strictEqual(invitee, 'frodo.baggins@hobbiton.example');
+      });
+      return p;
     });
-    p = p.catch(function(err) {
-      assert.strictEqual(err.code, 403);
-      assert.strictEqual(err.message, 'forbidden');
+    it('fails to invite a user (not found)', function() {
+      var conn = setupMock([
+        '100 Trying',
+        '404 Not found'
+      ]);
+      var signaler = signaling.createSignaling(conn);
+      // fake register
+      signaler.user = 'bilbo.baggins@hobbiton.example';
+      var p = signaler.invite('frodo.baggins@hobbiton.example');
+      p = p.then(function() {
+        assert.ok(false, 'unexpected success');
+      });
+      p = p.catch(function(err) {
+        assert.strictEqual(err.code, 404);
+        assert.strictEqual(err.message, 'Not found');
+      });
+      return p;
     });
-    return p;
-  })
+    it('fails to invite a user (not authorized)', function() {
+      var conn = setupMock([
+        '401 Not authorized'
+      ]);
+      var signaler = signaling.createSignaling(conn);
+      // fake register
+      signaler.user = 'bilbo.baggins@hobbiton.example';
+      var p = signaler.invite('frodo.baggins@hobbiton.example');
+      p = p.then(function() {
+        assert.ok(false, 'unexpected success');
+      });
+      p = p.catch(function(err) {
+        assert.strictEqual(err.code, 401);
+        assert.strictEqual(err.message, 'Not authorized');
+      });
+      return p;
+    });
+  });
 });
