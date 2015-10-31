@@ -16,16 +16,18 @@ gulp.task('clean', function() {
 gulp.task('lint', function() {
   var eslint = require('gulp-eslint');
 
-  return gulp.src([
+  var t = gulp.src([
     SRC,
     TESTS,
     'gulpfile.js'
   ])
   .pipe(eslint())
-  .pipe(eslint.format());
+  .pipe(eslint.format())
+  .pipe(eslint.failAfterError());
+  return t;
 });
 
-gulp.task('test', function() {
+gulp.task('test', ['lint'], function() {
   var mocha = require('gulp-mocha');
   return gulp.src([TESTS])
     .pipe(mocha());
@@ -36,8 +38,6 @@ gulp.task('doc', function() {
   gulp.src([SRC])
     .pipe(jsdoc('./doc'))
 });
-
-
 
 gulp.task('pre-coverage', function() {
   return gulp.src([SRC])
