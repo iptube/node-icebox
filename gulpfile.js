@@ -41,7 +41,3 @@ gulp.task('coverage', [ 'pre-coverage' ], function() {
     reporters: ["html", "text-summary"]
   }));
 })
-
-gulp.task('coverage', function() {
-
-});
