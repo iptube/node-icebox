@@ -56,7 +56,11 @@ describe('signaling', function() {
     it('invites a user', function() {
       var conn = setupMock([
         '100 Trying',
-        '200 OK'
+        [
+          '200 OK',
+          'From: frodo.baggins@hobbiton.example',
+          'To: bilbo.baggins@hobbiton.example'
+        ].join('\n')
       ]);
       var signaler = signaling.createSignaling(conn);
       // fake register
