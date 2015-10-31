@@ -4,7 +4,7 @@
   "description": "Simple generic ICE testing client.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "npm test"
+    "test": "./node_modules/.bin/gulp test"
   },
   "keywords": [
     "ice",
@@ -17,6 +17,7 @@
     "gulp": "^3.9",
     "gulp-eslint": "^1.0",
     "gulp-istanbul": "^0.10",
-    "gulp-mocha": "^2.1"
+    "gulp-mocha": "^2.1",
+    "gulp-util": "^3.0.7"
   }
 }
