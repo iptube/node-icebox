@@ -1,25 +1,25 @@
-"use strict";
+'use strict';
 
 var gulp = require('gulp'),
-    mocha = require("gulp-mocha"),
-    istanbul = require("gulp-istanbul");
+    mocha = require('gulp-mocha'),
+    istanbul = require('gulp-istanbul');
 
 var TESTS = ['./test/**/*.js'];
 
-gulp.task("lint", function() {
-  var eslint = require("gulp-eslint");
+gulp.task('lint', function() {
+  var eslint = require('gulp-eslint');
 
   return gulp.src([
-    "lib/**/*.js",
-    "test/**/*.js",
-    "gulpfile.js"
+    'lib/**/*.js',
+    'test/**/*.js',
+    'gulpfile.js'
   ])
   .pipe(eslint())
   .pipe(eslint.format());
 });
 
 gulp.task('test', function() {
-  var mocha = require("gulp-mocha");
+  var mocha = require('gulp-mocha');
   return gulp.src(TESTS)
     .pipe(mocha());
 });
@@ -37,7 +37,9 @@ gulp.task('coverage', [ 'pre-coverage' ], function() {
     t.end();
   }))
   .pipe(istanbul.writeReports({
-    dir: "./coverage/nodejs",
-    reporters: ["html", "text-summary"]
+    dir: './coverage/nodejs',
+    reporters: ['html', 'text-summary']
   }));
 })
+
+gulp.task('default', ['coverage']);
