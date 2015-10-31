@@ -11,5 +11,12 @@
     "wrapper"
   ],
   "author": "Pål-Erik Martinsen <palerikm@gmail.com>",
-  "license": "BSD-2-Clause"
+  "license": "BSD-2-Clause",
+  "devDependencies": {
+    "chai": "^3.4",
+    "gulp": "^3.9",
+    "gulp-eslint": "^1.0",
+    "gulp-istanbul": "^0.10",
+    "gulp-mocha": "^2.1"
+  }
 }
