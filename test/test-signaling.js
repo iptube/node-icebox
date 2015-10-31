@@ -35,7 +35,6 @@ describe('signaling', function() {
       var p = signaler.register('bilbo.baggins@hobbiton.example');
       p = p.then(function() {
         assert.ok(true);
-        console.log('user registered!');
       });
       return p;
     });
