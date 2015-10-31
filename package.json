@@ -12,12 +12,16 @@
   ],
   "author": "Pål-Erik Martinsen <palerikm@gmail.com>",
   "license": "BSD-2-Clause",
+  "repository": "https://github.com/iptube/node-icebox",
   "devDependencies": {
     "chai": "^3.4",
+    "del": "^2.0",
     "gulp": "^3.9",
     "gulp-eslint": "^1.0",
     "gulp-istanbul": "^0.10",
+    "gulp-live-server": "0.0",
     "gulp-mocha": "^2.1",
-    "gulp-util": "^3.0.7"
+    "gulp-util": "^3.0",
+    "open": "0.0.5"
   }
 }

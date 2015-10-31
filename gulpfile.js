@@ -8,6 +8,11 @@ var gulp = require('gulp'),
 var TESTS = './test/**/*.js';
 var SRC = './lib/**/*.js';
 
+gulp.task('clean', function() {
+  var del = require('del');
+  return del(['./coverage/']);
+});
+
 gulp.task('lint', function() {
   var eslint = require('gulp-eslint');
 
@@ -47,6 +52,17 @@ gulp.task('coverage', [ 'pre-coverage' ], function() {
 
 gulp.task('watch', ['coverage'], function() {
   return gulp.watch([SRC, TESTS], ['coverage']);
+});
+
+gulp.task('serve', ['watch'], function() {
+  var gls = require('gulp-live-server');
+  var open = require('open');
+  var server = gls['static']('coverage/nodejs');
+  server.start();
+  open('http://localhost:3000/');
+  return gulp.watch(['coverage/nodejs/**/*.html'], function(file) {
+    return server.notify.apply(server, [file]);
+  });
 });
 
 gulp.task('default', ['coverage']);
