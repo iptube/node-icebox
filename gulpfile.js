@@ -31,6 +31,14 @@ gulp.task('test', function() {
     .pipe(mocha());
 });
 
+gulp.task('doc', function() {
+  var jsdoc = require('gulp-jsdoc');
+  gulp.src([SRC])
+    .pipe(jsdoc('./doc'))
+});
+
+
+
 gulp.task('pre-coverage', function() {
   return gulp.src([SRC])
     .pipe(istanbul())
